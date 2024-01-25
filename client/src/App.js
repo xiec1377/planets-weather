@@ -40,10 +40,17 @@ function App() {
         setBackendData(data)
       }
     )
-  }, [])
+  }, []) // [] runs useEffect block on first render of component
 
   return (
-    <div>App</div>
+    <div>
+      {(typeof backendData.mockData == 'undefined') ? (
+        <p>Loading...</p>
+      ) :
+      backendData.mockData.map((data, i) => (
+        <p key={i}>{data}</p>
+      ))}
+    </div>
   )
 }
 
