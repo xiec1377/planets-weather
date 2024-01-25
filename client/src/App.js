@@ -24,9 +24,24 @@
 
 // export default App;
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function App() {
+
+  // state variable to contain backend data
+  const [backendData, setBackendData] = useState([{}])
+
+  // fetch backend api
+  useEffect(() => {
+    fetch("/api").then(
+      res => res.json()
+    ).then(
+      data => {
+        setBackendData(data)
+      }
+    )
+  }, [])
+
   return (
     <div>App</div>
   )
