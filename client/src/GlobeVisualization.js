@@ -72,7 +72,7 @@ function GlobeVisualization() {
     camera.updateProjectionMatrix()
 
     // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-    camera.position.z = 400 
+    camera.position.z = 400
     camera.position.x = 0
     camera.position.y = 0
 
@@ -96,7 +96,7 @@ function GlobeVisualization() {
       waitForGlobeReady: true,
       animateIn: true,
     })
-    .translateX(-200) //ADDED
+      .translateX(window.innerWidth / 8) //ADDED
       .hexPolygonsData(countries.features)
       .hexPolygonResolution(3)
       .hexPolygonMargin(0.7)
@@ -111,7 +111,7 @@ function GlobeVisualization() {
       .labelsData(gData)
       .labelText((d) => `TORONTO`) // (${Math.round(d.lat * 1e2) / 1e2}, ${Math.round(d.lng * 1e2) / 1e2})`)
       .labelSize('size')
-      .labelDotRadius(d => d.size * 2)
+      .labelDotRadius((d) => d.size * 2)
       .labelColor('color')
 
     const globeMaterial = Globe.globeMaterial()
