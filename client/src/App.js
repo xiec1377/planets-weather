@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ThreeGlobe from 'three-globe'
 import GlobeVisualization from './GlobeVisualization'
+import SearchBar from './SearchBar'
 
 function App() {
   // state variable to contain backend data
@@ -26,8 +27,8 @@ function App() {
     // </div>
     <div>
       {/* <p> hello</p> */}
-      <GlobeVisualization />
-      {/* <p> hello</p> */}
+      <GlobeVisualization style={{position: 'absolute'}}/>
+      <SearchBar style={{position: 'absolute', color:'white'}} />
     </div>
   )
 }

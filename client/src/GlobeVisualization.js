@@ -72,7 +72,7 @@ function GlobeVisualization() {
     camera.updateProjectionMatrix()
 
     // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
-    camera.position.z = 400
+    camera.position.z = 400 
     camera.position.x = 0
     camera.position.y = 0
 
@@ -96,6 +96,7 @@ function GlobeVisualization() {
       waitForGlobeReady: true,
       animateIn: true,
     })
+    .translateX(-200) //ADDED
       .hexPolygonsData(countries.features)
       .hexPolygonResolution(3)
       .hexPolygonMargin(0.7)
@@ -124,13 +125,16 @@ function GlobeVisualization() {
   }
 
   function onMouseMove(event) {
-    mouseX = event.clientX - windowHalfX
-    mouseY = event.clientY - windowHalfY
+    // mouseX = event.clientX - windowHalfX
+    // mouseY = event.clientY - windowHalfY
     console.log(`MOUSE`)
   }
 
   function onWindowResize() {
     // resize code here
+    const aspectRatio = 3
+    // const width = window.innerWidth / aspectRatio
+    // const height = window.innerHeight
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
     windowHalfX = window.innerWidth / 2 //1.5
@@ -140,13 +144,14 @@ function GlobeVisualization() {
   }
 
   function animate() {
-    tbControls.update()
-    // camera.position.x +=
+    // tbControls.update()
+    // camera.position.x =
     //   Math.abs(mouseX) <= windowHalfX / 2
     //     ? (mouseX / 2 - camera.position.x) * 0.005
     //     : 0
     // camera.position.y += (-mouseY / 2 - camera.position.y) * 0.005
     // camera.lookAt(scene.position)
+    Globe.rotation.y += 0.002
     renderer.render(scene, camera)
     requestAnimationFrame(animate)
   }
