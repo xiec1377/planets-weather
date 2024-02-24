@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react'
 import ThreeGlobe from 'three-globe'
 import GlobeVisualization from './GlobeVisualization'
 import SearchBar from './SearchBar'
-import BackgroundVisualization from './Background'
 
 function App() {
+  const [cityName, setCityName] = useState('')
+
+  const handleCitySubmit = (city) => {
+    setCityName(city)
+  }
+
+
   // state variable to contain backend data
   // const [backendData, setBackendData] = useState([{}])
 
@@ -37,10 +43,10 @@ function App() {
         className=" absolute w-screen h-screen"
         style={{ backgroundColor: '#040d21' }}
       ></div> */}
-      <GlobeVisualization className=''/>
+      <GlobeVisualization cityName={cityName}/>
       <div className="absolute h-screen w-1/2 end-0">
         <div className="flex items-center h-screen w-full">
-          <SearchBar className="" />
+          <SearchBar onCitySubmit={handleCitySubmit} />
         </div>
       </div>
     </>
