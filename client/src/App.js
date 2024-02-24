@@ -5,11 +5,20 @@ import SearchBar from './SearchBar'
 
 function App() {
   const [cityName, setCityName] = useState('')
+  const [long, setLong] = useState('')
+  const [lat, setLat] = useState('')
 
-  const handleCitySubmit = (city) => {
+  const handleCityChange = (city) => {
     setCityName(city)
   }
 
+  const handleLatChange = (lat) => {
+    setLat(lat)
+  }
+
+  const handleLongChange = (long) => {
+    setLong(long)
+  }
 
   // state variable to contain backend data
   // const [backendData, setBackendData] = useState([{}])
@@ -43,10 +52,14 @@ function App() {
         className=" absolute w-screen h-screen"
         style={{ backgroundColor: '#040d21' }}
       ></div> */}
-      <GlobeVisualization cityName={cityName}/>
+      <GlobeVisualization cityName={cityName} lat={lat} long={long} />
       <div className="absolute h-screen w-1/2 end-0">
         <div className="flex items-center h-screen w-full">
-          <SearchBar onCitySubmit={handleCitySubmit} />
+          <SearchBar
+            onCityChange={handleCityChange}
+            onLatChange={handleLatChange}
+            onLongChange={handleLongChange}
+          />
         </div>
       </div>
     </>

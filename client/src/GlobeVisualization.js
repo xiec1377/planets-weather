@@ -17,7 +17,7 @@ import * as THREE from 'three'
 import ThreeGlobe from 'three-globe'
 import countries from './custom.geo.json'
 
-function GlobeVisualization({cityName}) {
+function GlobeVisualization({cityName, lat, long}) {
   // const globeContainerRef = useRef()
   let [mouseX, setMouseX] = useState(0)
   let [mouseY, setMouseY] = useState(0)
@@ -28,6 +28,8 @@ function GlobeVisualization({cityName}) {
   let counter = 0
 
   console.log(`CITY NAME: ${cityName}`)
+  console.log(`LATITUDE: ${lat}`)
+  console.log(`LONGITUDE: ${long}`)
 
   useEffect(() => {
     if (counter == 0) {

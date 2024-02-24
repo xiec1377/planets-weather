@@ -1,16 +1,34 @@
 import React, { useState } from 'react'
 
-function SearchBar({ onCitySubmit }) {
+function SearchBar({ onCityChange, onLatChange, onLongChange }) {
   const [cityName, setCityName] = useState('')
+  const [lat, setLat] = useState('')
+  const [long, setLong] = useState('')
 
-  const handleFormSubmit = (e) => {
+  const handleCityChange = (e) => {
+    console.log(`e: ${e}`)
     e.preventDefault()
-    onCitySubmit(cityName)
-    setCityName('')
+    onCityChange(cityName)
+    // setCityName('')
+    onLatChange(lat)
+    onLongChange(long)
+    // setCityName(e.target.value)
+    // onCityChange(e.target.value)
+    // setCityName('')
+  }
+
+  const handleLatChange = (e) => {
+    setLat(e.target.value)
+    onLatChange(e.target.value)
+  }
+
+  const handleLongChange = (e) => {
+    setLong(e.target.value)
+    onLongChange(e.target.value)
   }
   return (
     <div className="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleCityChange}>
         <label
           htmlFor="city"
           className="block text-sm font-medium text-gray-500"
@@ -38,6 +56,8 @@ function SearchBar({ onCitySubmit }) {
             <input
               type="text"
               id="longitude"
+              value={long}
+              onChange={(e) => setLong(e.target.value)}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-white dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
@@ -51,6 +71,8 @@ function SearchBar({ onCitySubmit }) {
             <input
               type="text"
               id="latitude"
+              value={lat}
+              onChange={(e) => setLat(e.target.value)}
               className="mt-1 p-2 block w-full border border-gray-300 rounded-md bg-white dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
