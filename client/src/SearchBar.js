@@ -5,7 +5,7 @@ function SearchBar({ onCityChange, onLatChange, onLongChange }) {
   const [lat, setLat] = useState('')
   const [long, setLong] = useState('')
 
-  const handleCityChange = (e) => {
+  const handleFormSubmit = (e) => {
     console.log(`e: ${e}`)
     e.preventDefault()
     onCityChange(cityName)
@@ -17,18 +17,14 @@ function SearchBar({ onCityChange, onLatChange, onLongChange }) {
     // setCityName('')
   }
 
-  const handleLatChange = (e) => {
-    setLat(e.target.value)
-    onLatChange(e.target.value)
-  }
-
-  const handleLongChange = (e) => {
-    setLong(e.target.value)
-    onLongChange(e.target.value)
+  const handleClear = (e) => {
+    setCityName('')
+    setLat('')
+    setLong('')
   }
   return (
     <div className="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
-      <form onSubmit={handleCityChange}>
+      <form onSubmit={handleFormSubmit}>
         <label
           htmlFor="city"
           className="block text-sm font-medium text-gray-500"
@@ -80,6 +76,7 @@ function SearchBar({ onCityChange, onLatChange, onLongChange }) {
         <div className="mt-4 flex justify-between">
           <button
             type="button"
+            onClick={handleClear}
             className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Clear
