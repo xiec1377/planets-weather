@@ -25,7 +25,9 @@ function App() {
     //   ))}
     // </div>
     <div>
+      {/* <p> hello</p> */}
       <GlobeVisualization />
+      {/* <p> hello</p> */}
     </div>
   )
 }
