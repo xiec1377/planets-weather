@@ -2,7 +2,7 @@ import React from 'react'
 
 function SearchBar() {
   return (
-    <div>SearchBar</div>
+    <figure class="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">hello</figure>
   )
 }
 
