@@ -12,6 +12,7 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as THREE from 'three'
 import ThreeGlobe from 'three-globe'
 import countries from './custom.geo.json'
@@ -20,7 +21,7 @@ function GlobeVisualization() {
   // const globeContainerRef = useRef()
   let [mouseX, setMouseX] = useState(0)
   let [mouseY, setMouseY] = useState(0)
-  let windowHalfX = window.innerWidth / 2
+  let windowHalfX = 2* (window.innerWidth / 3) / 2
   let windowHalfY = window.innerHeight / 2
   let renderer, camera, scene, controls, tbControls, gData
   let Globe
@@ -29,7 +30,7 @@ function GlobeVisualization() {
   useEffect(() => {
     if (counter == 0) {
       counter += 1
-      console.log(`window.innerWidth: ${window.innerWidth}`)
+      console.log(`2* (window.innerWidth / 3): ${2* (window.innerWidth / 3)}`)
       console.log(`window.innerHeight: ${window.innerHeight}`)
       data()
       init()
@@ -58,7 +59,8 @@ function GlobeVisualization() {
   function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true })
     renderer.setPixelRatio(window.devicePixelRatio)
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(2* (window.innerWidth / 3), window.innerHeight)
+    // renderer.setClearColor(0x000000, 0) // ADDED
     document.body.appendChild(renderer.domElement)
 
     scene = new THREE.Scene()
@@ -66,9 +68,10 @@ function GlobeVisualization() {
     const ambientLight = new THREE.AmbientLight(0xbbbbbb, 1)
     scene.add(ambientLight)
     scene.background = new THREE.Color(0x040d21)
+    // scene.positionX = 200
 
     camera = new THREE.PerspectiveCamera()
-    camera.aspect = window.innerWidth / window.innerHeight
+    camera.aspect = 2* (window.innerWidth / 3) / window.innerHeight
     camera.updateProjectionMatrix()
 
     // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
@@ -79,10 +82,23 @@ function GlobeVisualization() {
     scene.add(camera)
 
     // camera controls
-    tbControls = new TrackballControls(camera, renderer.domElement)
-    tbControls.minDistance = 101
-    tbControls.rotateSpeed = 5
-    tbControls.zoomSpeed = 0.8
+    // tbControls = new TrackballControls(camera, renderer.domElement)
+    // tbControls.minDistance = 101
+    // tbControls.rotateSpeed = 5
+    // tbControls.zoomSpeed = 0.8
+
+    controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableDamping = true
+    controls.dynamicDampingFactor = 0.01
+    controls.enablePan = false
+    controls.minDistance = 200
+    controls.maxDistance = 400
+    controls.rotateSpeed = 0.8
+    controls.zoomSpeed = 0.8
+    controls.autoRotate = false
+    controls.minPolarAngle = Math.PI / 3.5
+    controls.maxPolarAngle = Math.PI - Math.PI / 3
+    // controls.position0 = 200
 
     scene.fog = new THREE.Fog(0x535ef3, 400, 2000)
 
@@ -96,7 +112,7 @@ function GlobeVisualization() {
       waitForGlobeReady: true,
       animateIn: true,
     })
-      .translateX(window.innerWidth / 8) //ADDED
+      // .translateX(2* (window.innerWidth / 3) / 8) //ADDED
       .hexPolygonsData(countries.features)
       .hexPolygonResolution(3)
       .hexPolygonMargin(0.7)
@@ -114,6 +130,8 @@ function GlobeVisualization() {
       .labelDotRadius((d) => d.size * 2)
       .labelColor('color')
 
+    // Globe.translateOnAxis(new THREE.Vector3(1, 0, 0), 200)
+
     const globeMaterial = Globe.globeMaterial()
     globeMaterial.color = new THREE.Color(0x3a228a)
     globeMaterial.emissive = new THREE.Color(0x220038)
@@ -125,32 +143,33 @@ function GlobeVisualization() {
   }
 
   function onMouseMove(event) {
-    // mouseX = event.clientX - windowHalfX
-    // mouseY = event.clientY - windowHalfY
+    mouseX = event.clientX - windowHalfX
+    mouseY = event.clientY - windowHalfY
     console.log(`MOUSE`)
   }
 
   function onWindowResize() {
     // resize code here
     const aspectRatio = 3
-    // const width = window.innerWidth / aspectRatio
-    // const height = window.innerHeight
-    camera.aspect = window.innerWidth / window.innerHeight
+    const width = 2* (window.innerWidth / 3) / aspectRatio
+    const height = window.innerHeight
+    camera.aspect = 2* (window.innerWidth / 3) / window.innerHeight
     camera.updateProjectionMatrix()
-    windowHalfX = window.innerWidth / 2 //1.5
+    windowHalfX = 2* (window.innerWidth / 3) / 2 //1.5
     windowHalfX = window.innerHeight / 2 //1,5
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(2* (window.innerWidth / 3), window.innerHeight)
     console.log(`resized window`)
   }
 
   function animate() {
     // tbControls.update()
+    controls.update()
     // camera.position.x =
     //   Math.abs(mouseX) <= windowHalfX / 2
     //     ? (mouseX / 2 - camera.position.x) * 0.005
     //     : 0
-    // camera.position.y += (-mouseY / 2 - camera.position.y) * 0.005
-    // camera.lookAt(scene.position)
+    // camera.position.y = (-mouseY / 2 - camera.position.y) * 0.005
+    camera.lookAt(scene.position) //Globe position
     Globe.rotation.y += 0.002
     renderer.render(scene, camera)
     requestAnimationFrame(animate)
@@ -184,7 +203,7 @@ export default GlobeVisualization
 
 //   // let mouseX = 0
 //   // let mouseY = 0
-//   let windowHalfX = window.innerWidth / 2
+//   let windowHalfX = 2* (window.innerWidth / 3) / 2
 //   let windowHalfY = window.innerHeight / 2
 //   // var Globe
 
@@ -223,7 +242,7 @@ export default GlobeVisualization
 //     // Setup renderer
 //     const renderer = new THREE.WebGLRenderer({antialias:true})
 //     renderer.setPixelRatio(window.devicePixelRatio)
-//     renderer.setSize(window.innerWidth, window.innerHeight)
+//     renderer.setSize(2* (window.innerWidth / 3), window.innerHeight)
 //     // globeContainerRef.current.appendChild(renderer.domElement)
 //     // document.getElementById('globe').appendChild(renderer.domElement) // ADDED
 //     document.body.appendChild(renderer.domElement) //ADDED
@@ -236,7 +255,7 @@ export default GlobeVisualization
 
 //     // Setup camera
 //     const camera = new THREE.PerspectiveCamera()
-//     camera.aspect = window.innerWidth / window.innerHeight
+//     camera.aspect = 2* (window.innerWidth / 3) / window.innerHeight
 //     camera.updateProjectionMatrix()
 //     camera.position.z = 400
 //     camera.position.x = 0
@@ -297,7 +316,7 @@ export default GlobeVisualization
 
 // let mouseX = 0
 // let mouseY = 0
-// let windowHalfX = window.innerWidth / 2
+// let windowHalfX = 2* (window.innerWidth / 3) / 2
 // let windowHalfY = window.innerHeight / 2
 // var Globe
 
@@ -309,7 +328,7 @@ export default GlobeVisualization
 // function init() {
 //   renderer = new THREE.WebGL1Renderer({ antialias: true })
 //   renderer.setPixelRatio(window.devicePixelRatio)
-//   renderer.setSize(window.innerWidth, window.innerHeight)
+//   renderer.setSize(2* (window.innerWidth / 3), window.innerHeight)
 //   document.body.appendChild(renderer.domElement)
 
 //   scene = new THREE.Scene()
@@ -319,7 +338,7 @@ export default GlobeVisualization
 //   scene.background = new THREE.Color(0x040d21)
 
 //   camera = new THREE.PerspectiveCamera()
-//   camera.aspect = window.innerWidth / window.innerHeight
+//   camera.aspect = 2* (window.innerWidth / 3) / window.innerHeight
 //   camera.updateProjectionMatrix()
 
 //   var DirectionalLight = new THREE.DirectionalLight(0xffffff, 0.8)
@@ -362,7 +381,7 @@ export default GlobeVisualization
 //     // Setup renderer
 //     const renderer = new THREE.WebGLRenderer({ antialias: true });
 //     renderer.setPixelRatio(window.devicePixelRatio);
-//     renderer.setSize(window.innerWidth, window.innerHeight);
+//     renderer.setSize(2* (window.innerWidth / 3), window.innerHeight);
 //     globeContainerRef.current.appendChild(renderer.domElement);
 
 //     // Setup scene
@@ -373,7 +392,7 @@ export default GlobeVisualization
 
 //     // Setup camera
 //     const camera = new THREE.PerspectiveCamera();
-//     camera.aspect = window.innerWidth / window.innerHeight;
+//     camera.aspect = 2* (window.innerWidth / 3) / window.innerHeight;
 //     camera.updateProjectionMatrix();
 //     camera.position.z = 400;
 //     scene.add(camera);

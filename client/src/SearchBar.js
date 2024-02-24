@@ -2,7 +2,7 @@ import React from 'react'
 
 function SearchBar() {
   return (
-    <div className="bg-slate-100 rounded-xl p-8 dark:bg-slate-800 absolute w-1/3">
+    <div className="bg-slate-100 rounded-xl p-8 dark:bg-slate-800">
       <label htmlFor="city" className="block text-sm font-medium text-gray-500">
         City Name
       </label>

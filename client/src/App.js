@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ThreeGlobe from 'three-globe'
 import GlobeVisualization from './GlobeVisualization'
 import SearchBar from './SearchBar'
+import BackgroundVisualization from './Background'
 
 function App() {
   // state variable to contain backend data
@@ -24,11 +25,21 @@ function App() {
     //   backendData.mockData.map((data, i) => (
     //     <p key={i}>{data}</p>
     //   ))}
-    // </div>
+    // // </div>
+    // <div className="flex">
+    //   <GlobeVisualization />
+    //   <div className="">
+    //     <SearchBar />
+    //   </div>
     <>
-      <GlobeVisualization className="absolute" />
-      <div className="absolute h-screen w-screen">
-        <div className="flex justify-center items-center h-screen w-2/4">
+      {/* <BackgroundVisualization /> */}
+      {/* <div
+        className=" absolute w-screen h-screen"
+        style={{ backgroundColor: '#040d21' }}
+      ></div> */}
+      <GlobeVisualization className=''/>
+      <div className="absolute h-screen w-1/2 end-0">
+        <div className="flex items-center h-screen w-full">
           <SearchBar className="" />
         </div>
       </div>
